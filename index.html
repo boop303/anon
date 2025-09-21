@@ -23,12 +23,14 @@
       display: flex;
       flex-direction: column;
       height: 100vh;
+      height: 100dvh; /* Dynamic viewport height for mobile */
       padding: 0; margin: 0;
     }
     .container {
       display: flex;
       flex-direction: column;
       height: 100vh;
+      height: 100dvh; /* Dynamic viewport height for mobile */
       max-width: 900px;
       margin: 0 auto;
       background: #1e1e1e;
@@ -49,6 +51,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      height: 100dvh; /* Dynamic viewport height for mobile */
       padding: 10px;
       background: #1e1e1e;
       user-select: text;
@@ -110,6 +113,7 @@
       display: flex;
       flex-direction: column;
       height: 100vh;
+      height: 100dvh; /* Dynamic viewport height for mobile */
       padding: 0;
       background: #121212;
       color: #ddd;
@@ -177,6 +181,9 @@
       user-select: text;
       display: flex;
       flex-direction: column;
+      /* Ensure messages don't overlap with input */
+      margin-bottom: 0;
+      min-height: 0; /* Important for flexbox scrolling */
     }
     .status {
       text-align: center;
@@ -225,7 +232,7 @@
       border: 1px solid #444;
       display: block;
     }
-    /* Message form fixed bottom */
+    /* Message form fixed bottom - KEY FIX */
     .message-form {
       height: 48px;
       display: flex;
@@ -235,9 +242,11 @@
       border-top: 1px solid #333;
       flex-shrink: 0;
       user-select: none;
-      position: sticky;
+      /* Remove sticky positioning that was causing issues */
+      position: relative;
       bottom: 0;
       z-index: 10;
+      width: 100%;
     }
     .message-input {
       flex-grow: 1;
@@ -252,12 +261,18 @@
       caret-color: #a2a2f7;
       user-select: text;
       transition: border-color 0.2s ease;
+      /* Prevent zoom on iOS */
+      -webkit-text-size-adjust: 100%;
+      transform-origin: left top;
     }
     .message-input::placeholder {
       color: #666;
     }
     .message-input:focus {
       border-color: #6666aa;
+      /* Prevent zoom on focus for iOS */
+      -webkit-transform: scale(1);
+      transform: scale(1);
     }
     .file-input {
       display: none;
@@ -271,6 +286,8 @@
       margin-right: 6px;
       user-select: none;
       transition: color 0.15s ease;
+      /* Ensure button doesn't shrink */
+      flex-shrink: 0;
     }
     .file-btn:hover {
       color: #ddd;
@@ -286,6 +303,8 @@
       user-select: none;
       transition: background-color 0.2s ease;
       margin-left: 6px;
+      /* Ensure button doesn't shrink */
+      flex-shrink: 0;
     }
     .btn-send:hover {
       background: #555;
@@ -319,15 +338,27 @@
       background: #444;
       border-radius: 3px;
     }
-    /* Responsive tweaks */
+    /* Enhanced mobile fixes */
     @media (max-width: 480px) {
       .container {
         width: 100vw;
+        width: 100dvw; /* Dynamic viewport width */
         height: 100vh;
+        height: 100dvh; /* Dynamic viewport height */
         border-radius: 0;
+      }
+      .setup-section {
+        height: 100vh;
+        height: 100dvh; /* Dynamic viewport height */
+      }
+      .chat-area {
+        height: 100vh;
+        height: 100dvh; /* Dynamic viewport height */
       }
       .room-code-input {
         max-width: 100%;
+        /* Prevent zoom on iOS */
+        font-size: 16px;
       }
       .btn {
         max-width: 100%;
@@ -343,8 +374,9 @@
         padding: 3px 6px;
       }
       .message-input {
-        font-size: 12px;
-        height: 28px;
+        /* Prevent zoom on iOS - font-size must be 16px or larger */
+        font-size: 16px;
+        height: 36px;
       }
       .btn-send {
         font-size: 12px;
@@ -356,6 +388,27 @@
       }
       .message {
         font-size: 12px;
+      }
+      .message-form {
+        /* Increase height on mobile for better touch targets */
+        height: 52px;
+        padding: 0 6px;
+      }
+      /* Ensure the input area stays at bottom on mobile keyboards */
+      .chat-area {
+        position: relative;
+      }
+    }
+    /* iOS Safari specific fixes */
+    @supports (-webkit-touch-callout: none) {
+      .container {
+        height: -webkit-fill-available;
+      }
+      .setup-section {
+        height: -webkit-fill-available;
+      }
+      .chat-area {
+        height: -webkit-fill-available;
       }
     }
   </style>
@@ -428,6 +481,43 @@
       document.getElementById('messageInput').addEventListener('keypress', function(e) {
         if(e.key === 'Enter') sendMessage();
       });
+      
+      // Mobile keyboard handling
+      const messageInput = document.getElementById('messageInput');
+      const chatArea = document.getElementById('chatArea');
+      
+      messageInput.addEventListener('focus', function() {
+        // Small delay to ensure keyboard is shown
+        setTimeout(() => {
+          scrollToBottom();
+        }, 300);
+      });
+      
+      // Handle viewport changes (keyboard show/hide)
+      let initialViewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+      
+      function handleViewportChange() {
+        if (window.visualViewport) {
+          const currentHeight = window.visualViewport.height;
+          const heightDiff = initialViewportHeight - currentHeight;
+          
+          // If keyboard is likely open (height decreased significantly)
+          if (heightDiff > 150) {
+            document.body.style.height = currentHeight + 'px';
+          } else {
+            document.body.style.height = '100vh';
+          }
+        }
+      }
+      
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', handleViewportChange);
+      }
+      
+      // Fallback for older mobile browsers
+      window.addEventListener('resize', function() {
+        setTimeout(scrollToBottom, 100);
+      });
     });
 
     function generateRoomCode() {
@@ -453,7 +543,8 @@
         sendSystemMessage(userId.substr(5, 4) + ' joined');
         showNotification('Joined room');
       }
-      scrollToBottom();
+      // Ensure proper scrolling after joining
+      setTimeout(scrollToBottom, 100);
     }
 
     function listenForMessages() {
@@ -478,8 +569,11 @@
         timestamp: Date.now(),
         type: 'text'
       };
-      messagesRef.push(message).then(() => input.value = '')
-        .catch(() => showNotification('Error sending message', 'error'));
+      messagesRef.push(message).then(() => {
+        input.value = '';
+        // Ensure scroll after sending message
+        setTimeout(scrollToBottom, 50);
+      }).catch(() => showNotification('Error sending message', 'error'));
     }
 
     function sendSystemMessage(text) {
@@ -518,6 +612,7 @@
         messagesRef.push(message).then(() => {
           showNotification('File sent');
           e.target.value = '';
+          setTimeout(scrollToBottom, 50);
         }).catch(() => {
           showNotification('Error sending file', 'error');
           e.target.value = '';
@@ -557,7 +652,10 @@
 
     function scrollToBottom() {
       const container = document.getElementById('messages');
-      container.scrollTop = container.scrollHeight;
+      // Use requestAnimationFrame for smoother scrolling
+      requestAnimationFrame(() => {
+        container.scrollTop = container.scrollHeight;
+      });
     }
 
     function copyRoomCode() {
