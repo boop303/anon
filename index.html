@@ -346,14 +346,21 @@
         height: 100vh;
         height: 100dvh; /* Dynamic viewport height */
         border-radius: 0;
+        /* Fallback for browsers that don't support dvh */
+        min-height: 100vh;
+        max-height: 100vh;
       }
       .setup-section {
         height: 100vh;
         height: 100dvh; /* Dynamic viewport height */
+        min-height: 100vh;
       }
       .chat-area {
         height: 100vh;
         height: 100dvh; /* Dynamic viewport height */
+        min-height: 100vh;
+        /* Force proper layout in Brave */
+        position: relative;
       }
       .room-code-input {
         max-width: 100%;
@@ -393,6 +400,19 @@
         /* Increase height on mobile for better touch targets */
         height: 52px;
         padding: 0 6px;
+        /* Additional fixes for Brave browser */
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        z-index: 100;
+      }
+      /* Adjust messages container to account for fixed input */
+      .messages {
+        padding-bottom: 60px; /* Add space for fixed input */
       }
       /* Ensure the input area stays at bottom on mobile keyboards */
       .chat-area {
@@ -403,12 +423,35 @@
     @supports (-webkit-touch-callout: none) {
       .container {
         height: -webkit-fill-available;
+        min-height: -webkit-fill-available;
       }
       .setup-section {
         height: -webkit-fill-available;
+        min-height: -webkit-fill-available;
       }
       .chat-area {
         height: -webkit-fill-available;
+        min-height: -webkit-fill-available;
+      }
+    }
+    
+    /* Brave browser specific fixes */
+    @media screen and (-webkit-min-device-pixel-ratio: 0) {
+      @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+        .container {
+          height: 100vh !important;
+          min-height: 100vh;
+        }
+        .chat-area {
+          height: 100vh !important;
+          min-height: 100vh;
+        }
+        @media (max-width: 480px) {
+          .message-form {
+            position: fixed !important;
+            bottom: 0 !important;
+          }
+        }
       }
     }
   </style>
@@ -642,12 +685,44 @@
           html += `<div>📎 <a href="${msg.fileData}" download="${msg.text}" style="color:#ccc;">${msg.text}</a></div>`;
         }
       } else {
-        html += `<div>${msg.text}</div>`;
+        // Make links clickable in text messages
+        const linkifiedText = linkifyText(msg.text);
+        html += `<div>${linkifiedText}</div>`;
       }
       html += `<div class="timestamp">${time}</div>`;
       div.innerHTML = html;
       container.appendChild(div);
       scrollToBottom();
+    }
+
+    // Function to detect and make links clickable
+    function linkifyText(text) {
+      // Regular expression to detect URLs
+      const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+|[^\s]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?)/gi;
+      
+      return text.replace(urlRegex, function(url) {
+        let href = url;
+        let displayUrl = url;
+        
+        // Add protocol if missing
+        if (!url.match(/^https?:\/\//i)) {
+          if (url.match(/^www\./i)) {
+            href = 'https://' + url;
+          } else if (url.match(/\.[a-zA-Z]{2,}/)) {
+            // Check if it looks like a domain
+            href = 'https://' + url;
+          } else {
+            return url; // Not a valid URL
+          }
+        }
+        
+        // Truncate very long URLs for display
+        if (displayUrl.length > 50) {
+          displayUrl = displayUrl.substring(0, 47) + '...';
+        }
+        
+        return `<a href="${href}" target="_blank" rel="noopener noreferrer" style="color: #6fa8dc; text-decoration: underline; word-break: break-all;">${displayUrl}</a>`;
+      });
     }
 
     function scrollToBottom() {
