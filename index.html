@@ -186,7 +186,6 @@
       position: relative;
       z-index: 99;
     }
-    
     @supports (-webkit-touch-callout: none) {
       .chat-container {
         height: -webkit-fill-available;
@@ -201,7 +200,6 @@
         height: calc(10px + env(safe-area-inset-bottom));
       }
     }
-    
     @media screen and (max-width: 768px) {
       .message-footer {
         padding-bottom: 10px;
@@ -236,9 +234,21 @@
       font-size: 18px;
       padding: 0 8px;
       transition: color 0.2s;
+      cursor: pointer;
     }
     .btn-attach:hover {
       color: #ddd;
+    }
+    .btn-attach:active {
+      transform: scale(0.95);
+    }
+    .btn-attach.recording {
+      color: #ff4444;
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
     }
     .btn-send {
       background: #444;
@@ -257,6 +267,31 @@
     .btn-send:hover {
       background: #555;
       color: #ddd;
+    }
+    .recording-indicator {
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 68, 68, 0.9);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .recording-dot {
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
     }
     .media-modal {
       display: none;
@@ -279,6 +314,158 @@
       max-height: 90%;
       object-fit: contain;
     }
+    
+    .bottom-sheet-modal {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      animation: fadeIn 0.3s ease-out;
+    }
+    
+    .bottom-sheet-modal.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    .bottom-sheet-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      max-height: 90vh;
+      background: #1a1a1a;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      animation: slideUp 0.3s ease-out;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+    
+    .bottom-sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid #333;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    
+    .bottom-sheet-title {
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .bottom-sheet-close-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    
+    .bottom-sheet-close-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .bottom-sheet-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .bottom-sheet-media {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .bottom-sheet-media img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      max-height: 70vh;
+      object-fit: contain;
+    }
+    
+    .bottom-sheet-media video {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      max-height: 70vh;
+      outline: none;
+    }
+    
+    .bottom-sheet-media audio {
+      width: 100%;
+      outline: none;
+    }
+    
+    .bottom-sheet-actions {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      padding: 20px;
+      border-top: 1px solid #333;
+      flex-shrink: 0;
+    }
+    
+    .bottom-sheet-action-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    
+    .bottom-sheet-action-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
     .media-modal-close {
       position: absolute;
       top: 20px;
@@ -298,6 +485,28 @@
     }
     .media-modal-close:hover {
       background: rgba(255, 255, 255, 0.3);
+    }
+    .media-download-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      text-decoration: none;
+    }
+    .media-download-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      color: #fff;
     }
     .toast-notification {
       position: fixed;
@@ -329,7 +538,6 @@
 </head>
 <body>
   <div class="app-container">
-    <!-- Setup Screen -->
     <div class="setup-screen" id="setupScreen">
       <div class="setup-card">
         <div class="mb-3">
@@ -340,49 +548,53 @@
       </div>
     </div>
 
-    <!-- Chat Screen -->
     <div class="chat-container d-none" id="chatScreen">
-      <!-- Header -->
       <div class="chat-header d-flex justify-content-between align-items-center">
         <span class="room-badge" id="currentRoom"></span>
         <div class="d-flex align-items-center gap-2">
           <span class="user-count" id="userCount">👥 0 online</span>
-          <button class="btn btn-leave btn-sm" onclick="leaveRoom()">⬅ Leave</button>
+          <button class="btn btn-leave btn-sm" onclick="leaveRoom()">← Leave</button>
         </div>
       </div>
 
-      <!-- Messages -->
       <div class="messages-container" id="messagesContainer">
         <div class="status-msg">Loading messages...</div>
       </div>
 
-      <!-- Footer -->
       <div class="message-footer">
         <div class="d-flex align-items-center gap-2">
           <input type="file" id="fileInput" class="d-none" accept="*/*">
           <button class="btn-attach" onclick="document.getElementById('fileInput').click()">📎</button>
+          <button class="btn-attach" id="audioBtn">🎤</button>
           <input type="text" id="messageInput" class="form-control message-input" placeholder="Type message..." maxlength="500" autocomplete="off">
           <button class="btn btn-send" onclick="sendMessage()">➤</button>
         </div>
+        <div id="recordingIndicator" class="recording-indicator d-none">
+          <span class="recording-dot"></span> Recording...
+        </div>
       </div>
 
-      <!-- Bottom Spacer -->
       <div class="bottom-spacer"></div>
     </div>
   </div>
 
-  <!-- Media Modal -->
-  <div class="media-modal" id="mediaModal" onclick="if(event.target === this) closeMediaModal()">
-    <button class="media-modal-close" onclick="closeMediaModal()">×</button>
-    <div id="mediaModalContent"></div>
+  <div class="bottom-sheet-modal" id="mediaBottomSheet" onclick="if(event.target === this) closeBottomSheet()">
+    <div class="bottom-sheet-content">
+      <div class="bottom-sheet-header">
+        <div class="bottom-sheet-title" id="bottomSheetTitle">Media</div>
+        <button class="bottom-sheet-close-btn" onclick="closeBottomSheet()">×</button>
+      </div>
+      <div class="bottom-sheet-body">
+        <div class="bottom-sheet-media" id="bottomSheetMedia"></div>
+      </div>
+      <div class="bottom-sheet-actions" id="bottomSheetActions"></div>
+    </div>
   </div>
 
-  <!-- Toast Notification -->
   <div class="toast-notification" id="toastNotification"></div>
 
   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
-
   <script>
     var firebaseConfig = {
       apiKey: "AIzaSyBhpJ1yAo92xLx6L3GyTVTuZsOXYYDZKWs",
@@ -403,6 +615,9 @@
     let usersRef = null;
     let userPresenceRef = null;
     let heartbeatInterval = null;
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let isRecording = false;
 
     document.addEventListener('DOMContentLoaded', function() {
       localStorage.removeItem('chatRoom');
@@ -416,6 +631,21 @@
       });
 
       document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+      
+      const audioBtn = document.getElementById('audioBtn');
+      audioBtn.addEventListener('mousedown', startRecording);
+      audioBtn.addEventListener('mouseup', stopRecording);
+      audioBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        startRecording();
+      });
+      audioBtn.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        stopRecording();
+      });
+      audioBtn.addEventListener('mouseleave', () => {
+        if (isRecording) stopRecording();
+      });
     });
 
     function joinRoom() {
@@ -562,11 +792,75 @@
       reader.readAsDataURL(file);
     }
 
+    async function startRecording() {
+      if (isRecording) return;
+      
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+        
+        mediaRecorder.ondataavailable = (event) => {
+          audioChunks.push(event.data);
+        };
+        
+        mediaRecorder.onstop = () => {
+          const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+          const reader = new FileReader();
+          
+          reader.onload = function(evt) {
+            const audioId = 'audio_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            const message = {
+              id: Date.now() + '_' + Math.random(),
+              text: 'Voice Message',
+              fileData: evt.target.result,
+              fileType: 'audio/webm',
+              sender: userId,
+              senderName: userId.substr(5, 4),
+              timestamp: Date.now(),
+              type: 'audio',
+              audioId: audioId
+            };
+            
+            messagesRef.push(message).then(() => {
+              showNotification('Voice message sent');
+              setTimeout(scrollToBottom, 50);
+            }).catch(() => {
+              showNotification('Error sending voice message', 'error');
+            });
+          };
+          
+          reader.readAsDataURL(audioBlob);
+          
+          stream.getTracks().forEach(track => track.stop());
+        };
+        
+        mediaRecorder.start();
+        isRecording = true;
+        const audioBtn = document.getElementById('audioBtn');
+        audioBtn.textContent = '⏹️';
+        audioBtn.classList.add('recording');
+        document.getElementById('recordingIndicator').classList.remove('d-none');
+      } catch (err) {
+        showNotification('Microphone access denied', 'error');
+      }
+    }
+
+    function stopRecording() {
+      if (!isRecording || !mediaRecorder) return;
+      
+      mediaRecorder.stop();
+      isRecording = false;
+      const audioBtn = document.getElementById('audioBtn');
+      audioBtn.textContent = '🎤';
+      audioBtn.classList.remove('recording');
+      document.getElementById('recordingIndicator').classList.add('d-none');
+    }
+
     function displayMessage(msg) {
       const container = document.getElementById('messagesContainer');
       
       if (msg.type === 'system') {
-        // Don't display system messages in chat, show as toast instead
         if (msg.text.includes('joined')) {
           const username = msg.text.replace(' joined', '');
           showNotification(`${username} joined the room`);
@@ -585,15 +879,32 @@
       let html = `<strong>${msg.sender === userId ? 'You' : msg.senderName}</strong>`;
       
       if (msg.type === 'file') {
-        if (msg.fileType && msg.fileType.startsWith('image/')) {
-          html += `<div>📷 ${msg.text}</div><img src="${msg.fileData}" alt="${msg.text}" class="image-preview" onclick="openMediaModal('${msg.fileData}', 'image', '${msg.text}')"/>`;
-        } else if (msg.fileType && msg.fileType.startsWith('video/')) {
-          html += `<div>🎥 ${msg.text}</div><video class="image-preview" onclick="openMediaModal('${msg.fileData}', 'video', '${msg.text}')"><source src="${msg.fileData}" type="${msg.fileType}"></video>`;
-        } else if (msg.fileType && msg.fileType.startsWith('audio/')) {
-          html += `<div>🎵 ${msg.text}</div><audio controls style="max-width: 200px; margin-top: 8px;" onclick="event.stopPropagation(); openMediaModal('${msg.fileData}', 'audio', '${msg.text}')"><source src="${msg.fileData}" type="${msg.fileType}"></audio>`;
+        const isImage = msg.fileType && (
+          msg.fileType.startsWith('image/') ||
+          /\.(jpg|jpeg|png|gif|bmp|webp|svg|ico|tiff|tif|heic|heif|avif|jfif)$/i.test(msg.text)
+        );
+        const isVideo = msg.fileType && (
+          msg.fileType.startsWith('video/') ||
+          /\.(mp4|webm|ogg|ogv|mov|avi|wmv|flv|mkv|m4v|3gp|mpeg|mpg|m2v|mts|m2ts|vob|ts)$/i.test(msg.text)
+        );
+        const isAudio = msg.fileType && (
+          msg.fileType.startsWith('audio/') ||
+          /\.(mp3|wav|ogg|oga|m4a|aac|flac|opus|weba|aiff|ape|wv|tta|tak)$/i.test(msg.text)
+        );
+        
+        if (isImage) {
+          html += `<img src="${msg.fileData}" alt="Image" class="image-preview" onclick="openMediaModal('${msg.fileData}', 'image', '${msg.text}')"/>`;
+        } else if (isVideo) {
+          html += `<video class="image-preview" onclick="openMediaModal('${msg.fileData}', 'video', '${msg.text}')"><source src="${msg.fileData}" type="${msg.fileType || 'video/mp4'}"></video>`;
+        } else if (isAudio) {
+          html += `<audio controls style="max-width: 200px; margin-top: 8px;"><source src="${msg.fileData}" type="${msg.fileType || 'audio/mpeg'}"></audio>`;
         } else {
           html += `<div>📎 <a href="${msg.fileData}" download="${msg.text}" style="color:#6fa8dc;">${msg.text}</a></div>`;
         }
+      } else if (msg.type === 'audio') {
+        const audioId = msg.audioId || 'audio_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        html += `<div style="margin-top: 5px; cursor: pointer; font-size: 24px;" onclick="openMediaModal('${msg.fileData}', 'audio', '${msg.text}', '${audioId}')">🎤</div>`;
+        html += `<audio id="${audioId}" style="display: none;" preload="auto"><source src="${msg.fileData}" type="${msg.fileType}"></audio>`;
       } else {
         const linkifiedText = linkifyText(msg.text);
         html += `<div>${linkifiedText}</div>`;
@@ -639,48 +950,123 @@
       });
     }
 
-    function openMediaModal(src, type, name) {
-      const modal = document.getElementById('mediaModal');
-      const content = document.getElementById('mediaModalContent');
-      content.innerHTML = '';
+    function openMediaModal(src, type, name, audioId) {
+      const modal = document.getElementById('mediaBottomSheet');
+      const title = document.getElementById('bottomSheetTitle');
+      const mediaContainer = document.getElementById('bottomSheetMedia');
+      const actionsContainer = document.getElementById('bottomSheetActions');
+      
+      mediaContainer.innerHTML = '';
+      actionsContainer.innerHTML = '';
       
       if (type === 'image') {
+        title.innerHTML = '🖼️ Image';
         const img = document.createElement('img');
         img.src = src;
-        img.alt = name;
-        img.className = 'media-modal-content';
-        content.appendChild(img);
+        img.alt = name || 'Image';
+        mediaContainer.appendChild(img);
+        
+        actionsContainer.innerHTML = `
+          <a href="${src}" download="${name || 'image'}" class="bottom-sheet-action-btn">
+            ⬇ Download
+          </a>
+        `;
       } else if (type === 'video') {
+        title.innerHTML = '🎥 Video';
         const video = document.createElement('video');
         video.src = src;
         video.controls = true;
-        video.className = 'media-modal-content';
-        video.style.width = '100%';
-        video.style.height = 'auto';
-        content.appendChild(video);
+        video.setAttribute('controlsList', 'nodownload');
+        
+        const extension = name ? name.split('.').pop().toLowerCase() : '';
+        const mimeTypes = {
+          'mp4': 'video/mp4',
+          'webm': 'video/webm',
+          'ogg': 'video/ogg',
+          'ogv': 'video/ogg',
+          'mov': 'video/quicktime',
+          'avi': 'video/x-msvideo',
+          'wmv': 'video/x-ms-wmv',
+          'flv': 'video/x-flv',
+          'mkv': 'video/x-matroska',
+          'm4v': 'video/x-m4v',
+          '3gp': 'video/3gpp',
+          'mpeg': 'video/mpeg',
+          'mpg': 'video/mpeg',
+          'm2v': 'video/mpeg',
+          'ts': 'video/mp2t'
+        };
+        
+        if (extension && mimeTypes[extension]) {
+          const source = document.createElement('source');
+          source.src = src;
+          source.type = mimeTypes[extension];
+          video.appendChild(source);
+        }
+        
+        mediaContainer.appendChild(video);
+        
+        actionsContainer.innerHTML = `
+          <a href="${src}" download="${name || 'video'}" class="bottom-sheet-action-btn">
+            ⬇ Download
+          </a>
+        `;
       } else if (type === 'audio') {
+        title.innerHTML = '🎤 Voice Message';
         const audio = document.createElement('audio');
         audio.src = src;
         audio.controls = true;
-        audio.style.width = '100%';
-        audio.style.maxWidth = '500px';
-        content.appendChild(audio);
+        
+        const extension = name ? name.split('.').pop().toLowerCase() : '';
+        const mimeTypes = {
+          'mp3': 'audio/mpeg',
+          'wav': 'audio/wav',
+          'ogg': 'audio/ogg',
+          'oga': 'audio/ogg',
+          'm4a': 'audio/mp4',
+          'aac': 'audio/aac',
+          'flac': 'audio/flac',
+          'opus': 'audio/opus',
+          'webm': 'audio/webm',
+          'weba': 'audio/webm',
+          'aiff': 'audio/aiff',
+          'aif': 'audio/aiff'
+        };
+        
+        if (extension && mimeTypes[extension]) {
+          const source = document.createElement('source');
+          source.src = src;
+          source.type = mimeTypes[extension];
+          audio.appendChild(source);
+        }
+        
+        mediaContainer.appendChild(audio);
+        
+        actionsContainer.innerHTML = `
+          <a href="${src}" download="${name || 'voice-message.webm'}" class="bottom-sheet-action-btn">
+            ⬇ Download
+          </a>
+        `;
       }
       
       modal.classList.add('active');
     }
-
-    function closeMediaModal() {
-      const modal = document.getElementById('mediaModal');
-      const content = document.getElementById('mediaModalContent');
+    
+    function closeBottomSheet() {
+      const modal = document.getElementById('mediaBottomSheet');
+      const mediaContainer = document.getElementById('bottomSheetMedia');
       
-      const video = content.querySelector('video');
-      const audio = content.querySelector('audio');
+      const video = mediaContainer.querySelector('video');
+      const audio = mediaContainer.querySelector('audio');
       if (video) video.pause();
       if (audio) audio.pause();
       
       modal.classList.remove('active');
-      content.innerHTML = '';
+      mediaContainer.innerHTML = '';
+    }
+
+    function closeMediaModal() {
+      closeBottomSheet();
     }
 
     function scrollToBottom() {
