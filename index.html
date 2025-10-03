@@ -88,25 +88,25 @@
     .chat-header {
       background: #222;
       border-bottom: 1px solid #333;
-      padding: 6px 15px;
+      padding: 4px 12px;
       flex-shrink: 0;
     }
     .room-badge {
       background: #1a1a1a;
       color: #bbb;
       border: 1px solid #444;
-      padding: 5px 10px;
-      border-radius: 12px;
+      padding: 3px 8px;
+      border-radius: 10px;
       font-family: monospace;
-      font-size: 14px;
+      font-size: 12px;
     }
     .btn-leave {
       background: #550000;
       color: #f2a1a1;
       border: none;
-      padding: 5px 15px;
-      border-radius: 14px;
-      font-size: 13px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11px;
       transition: background 0.2s;
     }
     .btn-leave:hover {
@@ -115,7 +115,7 @@
     }
     .user-count {
       color: #888;
-      font-size: 13px;
+      font-size: 11px;
     }
     .messages-container {
       flex: 1;
@@ -173,7 +173,7 @@
     .message-footer {
       background: #222;
       border-top: 1px solid #333;
-      padding: 10px 15px 12px 15px;
+      padding: 6px 12px 8px 12px;
       flex-shrink: 0;
       position: relative;
       z-index: 100;
@@ -195,7 +195,7 @@
         height: -webkit-fill-available;
       }
       .message-footer {
-        padding-bottom: calc(12px + env(safe-area-inset-bottom));
+        padding-bottom: calc(8px + env(safe-area-inset-bottom));
       }
       .bottom-spacer {
         height: calc(10px + env(safe-area-inset-bottom));
@@ -204,20 +204,21 @@
     
     @media screen and (max-width: 768px) {
       .message-footer {
-        padding-bottom: 15px;
+        padding-bottom: 10px;
       }
       .bottom-spacer {
-        height: 15px;
+        height: 12px;
       }
     }
     .message-input {
       background: #121212;
       border: 1.5px solid #444;
       color: #ddd;
-      border-radius: 20px;
-      padding: 10px 15px;
-      font-size: 16px;
+      border-radius: 18px;
+      padding: 8px 12px;
+      font-size: 14px;
       flex: 1;
+      height: 36px;
     }
     .message-input:focus {
       background: #121212;
@@ -232,8 +233,8 @@
       background: none;
       border: none;
       color: #bbb;
-      font-size: 20px;
-      padding: 0 10px;
+      font-size: 18px;
+      padding: 0 8px;
       transition: color 0.2s;
     }
     .btn-attach:hover {
@@ -243,12 +244,12 @@
       background: #444;
       color: #ddd;
       border: none;
-      padding: 10px 15px;
+      padding: 8px 12px;
       border-radius: 50%;
-      font-size: 18px;
+      font-size: 16px;
       transition: background 0.2s;
-      width: 42px;
-      height: 42px;
+      width: 36px;
+      height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
