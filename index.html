@@ -480,11 +480,9 @@
     let heartbeatInterval = null;
 
     document.addEventListener('DOMContentLoaded', function () {
-      const savedRoom = localStorage.getItem('chatRoom');
-      if (savedRoom) {
-        document.getElementById('roomCode').value = savedRoom;
-        joinRoom(true);
-      }
+      // Don't auto-join from saved room
+      localStorage.removeItem('chatRoom');
+      
       document.getElementById('roomCode').addEventListener('keypress', function(e) {
         if(e.key === 'Enter') joinRoom();
       });
@@ -532,7 +530,6 @@
         return;
       }
       currentRoom = code;
-      localStorage.setItem('chatRoom', currentRoom);
       document.getElementById('currentRoom').textContent = currentRoom;
       messagesRef = database.ref('rooms/' + currentRoom + '/messages');
       usersRef = database.ref('rooms/' + currentRoom + '/users');
@@ -774,7 +771,6 @@
       }
       
       stopHeartbeat();
-      localStorage.removeItem('chatRoom');
       currentRoom = '';
       messagesRef = null;
       document.getElementById('chatArea').style.display = 'none';
