@@ -23,14 +23,14 @@
       display: flex;
       flex-direction: column;
       height: 100vh;
-      height: 100dvh; /* Dynamic viewport height for mobile */
+      height: 100dvh;
       padding: 0; margin: 0;
     }
     .container {
       display: flex;
       flex-direction: column;
       height: 100vh;
-      height: 100dvh; /* Dynamic viewport height for mobile */
+      height: 100dvh;
       max-width: 900px;
       margin: 0 auto;
       background: #1e1e1e;
@@ -40,18 +40,16 @@
       overflow: hidden;
       user-select: none;
     }
-    /* Hide heading and extra text */
     .header, .setup-section h2, .setup-section p {
       display: none;
     }
-    /* Setup section styles simplified */
     .setup-section {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      height: 100dvh; /* Dynamic viewport height for mobile */
+      height: 100dvh;
       padding: 10px;
       background: #1e1e1e;
       user-select: text;
@@ -102,24 +100,16 @@
     .btn:hover {
       background: #444;
     }
-    .btn.secondary {
-      background: #555;
-    }
-    .btn.secondary:hover {
-      background: #666;
-    }
-    /* Chat area fills entire container */
     .chat-area {
       display: flex;
       flex-direction: column;
       height: 100vh;
-      height: 100dvh; /* Dynamic viewport height for mobile */
+      height: 100dvh;
       padding: 0;
       background: #121212;
       color: #ddd;
       user-select: text;
     }
-    /* Room info top bar */
     .room-info {
       display: flex;
       align-items: center;
@@ -170,7 +160,6 @@
     .room-info button.danger:hover {
       background: #770000;
     }
-    /* Messages container */
     .messages {
       flex-grow: 1;
       overflow-y: auto;
@@ -181,9 +170,8 @@
       user-select: text;
       display: flex;
       flex-direction: column;
-      /* Ensure messages don't overlap with input */
       margin-bottom: 0;
-      min-height: 0; /* Important for flexbox scrolling */
+      min-height: 0;
     }
     .status {
       text-align: center;
@@ -222,7 +210,6 @@
       color: #999;
       user-select: none;
     }
-    /* Image previews in messages */
     .image-preview {
       max-width: 180px;
       max-height: 180px;
@@ -232,7 +219,6 @@
       border: 1px solid #444;
       display: block;
     }
-    /* Message form fixed bottom - KEY FIX */
     .message-form {
       height: 48px;
       display: flex;
@@ -242,7 +228,6 @@
       border-top: 1px solid #333;
       flex-shrink: 0;
       user-select: none;
-      /* Remove sticky positioning that was causing issues */
       position: relative;
       bottom: 0;
       z-index: 10;
@@ -261,7 +246,6 @@
       caret-color: #a2a2f7;
       user-select: text;
       transition: border-color 0.2s ease;
-      /* Prevent zoom on iOS */
       -webkit-text-size-adjust: 100%;
       transform-origin: left top;
     }
@@ -270,7 +254,6 @@
     }
     .message-input:focus {
       border-color: #6666aa;
-      /* Prevent zoom on focus for iOS */
       -webkit-transform: scale(1);
       transform: scale(1);
     }
@@ -286,7 +269,6 @@
       margin-right: 6px;
       user-select: none;
       transition: color 0.15s ease;
-      /* Ensure button doesn't shrink */
       flex-shrink: 0;
     }
     .file-btn:hover {
@@ -303,7 +285,6 @@
       user-select: none;
       transition: background-color 0.2s ease;
       margin-left: 6px;
-      /* Ensure button doesn't shrink */
       flex-shrink: 0;
     }
     .btn-send:hover {
@@ -327,7 +308,6 @@
       background: #bb5555;
       color: #eee;
     }
-    /* Scrollbar styling for webkit */
     .messages::-webkit-scrollbar {
       width: 6px;
     }
@@ -338,33 +318,29 @@
       background: #444;
       border-radius: 3px;
     }
-    /* Enhanced mobile fixes */
     @media (max-width: 480px) {
       .container {
         width: 100vw;
-        width: 100dvw; /* Dynamic viewport width */
+        width: 100dvw;
         height: 100vh;
-        height: 100dvh; /* Dynamic viewport height */
+        height: 100dvh;
         border-radius: 0;
-        /* Fallback for browsers that don't support dvh */
         min-height: 100vh;
         max-height: 100vh;
       }
       .setup-section {
         height: 100vh;
-        height: 100dvh; /* Dynamic viewport height */
+        height: 100dvh;
         min-height: 100vh;
       }
       .chat-area {
         height: 100vh;
-        height: 100dvh; /* Dynamic viewport height */
+        height: 100dvh;
         min-height: 100vh;
-        /* Force proper layout in Brave */
         position: relative;
       }
       .room-code-input {
         max-width: 100%;
-        /* Prevent zoom on iOS */
         font-size: 16px;
       }
       .btn {
@@ -381,7 +357,6 @@
         padding: 3px 6px;
       }
       .message-input {
-        /* Prevent zoom on iOS - font-size must be 16px or larger */
         font-size: 16px;
         height: 36px;
       }
@@ -397,10 +372,8 @@
         font-size: 12px;
       }
       .message-form {
-        /* Increase height on mobile for better touch targets */
         height: 52px;
         padding: 0 6px;
-        /* Additional fixes for Brave browser */
         position: fixed;
         bottom: 0;
         left: 0;
@@ -410,16 +383,13 @@
         margin: 0 auto;
         z-index: 100;
       }
-      /* Adjust messages container to account for fixed input */
       .messages {
-        padding-bottom: 60px; /* Add space for fixed input */
+        padding-bottom: 60px;
       }
-      /* Ensure the input area stays at bottom on mobile keyboards */
       .chat-area {
         position: relative;
       }
     }
-    /* iOS Safari specific fixes */
     @supports (-webkit-touch-callout: none) {
       .container {
         height: -webkit-fill-available;
@@ -434,8 +404,6 @@
         min-height: -webkit-fill-available;
       }
     }
-    
-    /* Brave browser specific fixes */
     @media screen and (-webkit-min-device-pixel-ratio: 0) {
       @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
         .container {
@@ -458,16 +426,13 @@
 </head>
 <body>
   <div class="container">
-    <!-- Setup Section -->
     <div class="setup-section room-setup" id="roomSetup">
       <div class="input-group">
         <label for="roomCode">Room Code</label>
-        <input type="text" id="roomCode" class="room-code-input" placeholder="Enter or generate room code" autocomplete="off" />
+        <input type="text" id="roomCode" class="room-code-input" placeholder="Enter room code" autocomplete="off" />
       </div>
       <button class="btn" onclick="joinRoom()">Join Room</button>
-      <button class="btn secondary" onclick="generateRoomCode()">Generate Room</button>
     </div>
-    <!-- Chat Area -->
     <div class="chat-area" id="chatArea" style="display:none;">
       <div class="room-info">
         <span class="room-code" id="currentRoom"></span>
@@ -490,7 +455,6 @@
 
   <div class="notification" id="notification"></div>
 
-  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
 
@@ -528,18 +492,15 @@
         if(e.key === 'Enter') sendMessage();
       });
       
-      // Mobile keyboard handling
       const messageInput = document.getElementById('messageInput');
       const chatArea = document.getElementById('chatArea');
       
       messageInput.addEventListener('focus', function() {
-        // Small delay to ensure keyboard is shown
         setTimeout(() => {
           scrollToBottom();
         }, 300);
       });
       
-      // Handle viewport changes (keyboard show/hide)
       let initialViewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
       
       function handleViewportChange() {
@@ -547,7 +508,6 @@
           const currentHeight = window.visualViewport.height;
           const heightDiff = initialViewportHeight - currentHeight;
           
-          // If keyboard is likely open (height decreased significantly)
           if (heightDiff > 150) {
             document.body.style.height = currentHeight + 'px';
           } else {
@@ -560,17 +520,10 @@
         window.visualViewport.addEventListener('resize', handleViewportChange);
       }
       
-      // Fallback for older mobile browsers
       window.addEventListener('resize', function() {
         setTimeout(scrollToBottom, 100);
       });
     });
-
-    function generateRoomCode() {
-      const code = 'ROOM-' + Math.random().toString(36).substr(2, 6).toUpperCase();
-      document.getElementById('roomCode').value = code;
-      showNotification('Room code generated');
-    }
 
     function joinRoom(auto = false) {
       const code = document.getElementById('roomCode').value.trim();
@@ -584,7 +537,6 @@
       messagesRef = database.ref('rooms/' + currentRoom + '/messages');
       usersRef = database.ref('rooms/' + currentRoom + '/users');
       
-      // Set up user presence
       userPresenceRef = usersRef.child(userId);
       userPresenceRef.set({
         name: userId.substr(5, 4),
@@ -592,13 +544,11 @@
         online: true
       });
       
-      // Set up auto-disconnect on browser close
       userPresenceRef.onDisconnect().update({
         online: false,
         lastSeen: firebase.database.ServerValue.TIMESTAMP
       });
       
-      // Start heartbeat to maintain presence
       startHeartbeat();
       
       document.querySelector('.room-setup').style.display = 'none';
@@ -610,7 +560,6 @@
         sendSystemMessage(userId.substr(5, 4) + ' joined');
         showNotification('Joined room');
       }
-      // Ensure proper scrolling after joining
       setTimeout(scrollToBottom, 100);
     }
 
@@ -632,32 +581,27 @@
         let onlineCount = 0;
         
         if (users) {
-          // Count online users and clean up offline users older than 30 seconds
           const now = Date.now();
           Object.keys(users).forEach(userIdKey => {
             const user = users[userIdKey];
             if (user.online) {
               onlineCount++;
             } else if (user.lastSeen && (now - user.lastSeen > 30000)) {
-              // Remove user if offline for more than 30 seconds
               usersRef.child(userIdKey).remove();
             }
           });
         }
         
-        // Update user count display
         const userCountEl = document.getElementById('userCount');
         userCountEl.textContent = `👥 ${onlineCount} online`;
       });
     }
 
     function startHeartbeat() {
-      // Clear any existing heartbeat
       if (heartbeatInterval) {
         clearInterval(heartbeatInterval);
       }
       
-      // Send heartbeat every 10 seconds
       heartbeatInterval = setInterval(() => {
         if (userPresenceRef) {
           userPresenceRef.update({
@@ -689,7 +633,6 @@
       };
       messagesRef.push(message).then(() => {
         input.value = '';
-        // Ensure scroll after sending message
         setTimeout(scrollToBottom, 50);
       }).catch(() => showNotification('Error sending message', 'error'));
     }
@@ -709,7 +652,7 @@
     document.getElementById('fileInput').addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (!file) return;
-      const maxSize = 50 * 1024 * 1024; // 50MB
+      const maxSize = 50 * 1024 * 1024;
       if (file.size > maxSize) {
         showNotification('File too large (max 50MB)', 'error');
         e.target.value = '';
@@ -751,7 +694,10 @@
       }
       const div = document.createElement('div');
       div.className = 'message ' + (msg.sender === userId ? 'own' : 'other');
-      const time = new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      const msgDate = new Date(msg.timestamp);
+      const date = String(msgDate.getDate()).padStart(2, '0') + '/' + String(msgDate.getMonth() + 1).padStart(2, '0');
+      const time = msgDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      const dateTime = date + ' ' + time;
       let html = `<div><strong>${msg.sender === userId ? 'You' : msg.senderName}</strong></div>`;
       if (msg.type === 'file') {
         if (msg.fileType && msg.fileType.startsWith('image/')) {
@@ -760,38 +706,32 @@
           html += `<div>📎 <a href="${msg.fileData}" download="${msg.text}" style="color:#ccc;">${msg.text}</a></div>`;
         }
       } else {
-        // Make links clickable in text messages
         const linkifiedText = linkifyText(msg.text);
         html += `<div>${linkifiedText}</div>`;
       }
-      html += `<div class="timestamp">${time}</div>`;
+      html += `<div class="timestamp">${dateTime}</div>`;
       div.innerHTML = html;
       container.appendChild(div);
       scrollToBottom();
     }
 
-    // Function to detect and make links clickable
     function linkifyText(text) {
-      // Regular expression to detect URLs
       const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+|[^\s]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?)/gi;
       
       return text.replace(urlRegex, function(url) {
         let href = url;
         let displayUrl = url;
         
-        // Add protocol if missing
         if (!url.match(/^https?:\/\//i)) {
           if (url.match(/^www\./i)) {
             href = 'https://' + url;
           } else if (url.match(/\.[a-zA-Z]{2,}/)) {
-            // Check if it looks like a domain
             href = 'https://' + url;
           } else {
-            return url; // Not a valid URL
+            return url;
           }
         }
         
-        // Truncate very long URLs for display
         if (displayUrl.length > 50) {
           displayUrl = displayUrl.substring(0, 47) + '...';
         }
@@ -802,7 +742,6 @@
 
     function scrollToBottom() {
       const container = document.getElementById('messages');
-      // Use requestAnimationFrame for smoother scrolling
       requestAnimationFrame(() => {
         container.scrollTop = container.scrollHeight;
       });
@@ -821,7 +760,6 @@
         messagesRef.off();
       }
       
-      // Clean up user presence
       if (userPresenceRef) {
         userPresenceRef.update({
           online: false,
@@ -856,10 +794,8 @@
       noti._timeout = setTimeout(() => noti.style.display = 'none', 3000);
     }
 
-    // Enhanced browser close/tab close detection
     window.addEventListener('beforeunload', (e) => {
       if (messagesRef && currentRoom && userPresenceRef) {
-        // Mark user as offline immediately
         userPresenceRef.update({
           online: false,
           lastSeen: firebase.database.ServerValue.TIMESTAMP
@@ -870,13 +806,10 @@
       }
     });
 
-    // Handle page visibility changes (tab switching, minimizing)
     document.addEventListener('visibilitychange', () => {
       if (userPresenceRef) {
         if (document.hidden) {
-          // User switched tab or minimized - reduce heartbeat frequency
           stopHeartbeat();
-          // Set up slower heartbeat for background tabs
           heartbeatInterval = setInterval(() => {
             if (userPresenceRef) {
               userPresenceRef.update({
@@ -884,15 +817,13 @@
                 online: true
               });
             }
-          }, 30000); // Every 30 seconds when tab is hidden
+          }, 30000);
         } else {
-          // User returned to tab - resume normal heartbeat
           startHeartbeat();
         }
       }
     });
 
-    // Handle focus/blur events for additional presence accuracy
     window.addEventListener('focus', () => {
       if (userPresenceRef) {
         userPresenceRef.update({
@@ -906,7 +837,6 @@
     window.addEventListener('blur', () => {
       if (userPresenceRef) {
         stopHeartbeat();
-        // Set slower heartbeat when window loses focus
         heartbeatInterval = setInterval(() => {
           if (userPresenceRef) {
             userPresenceRef.update({
