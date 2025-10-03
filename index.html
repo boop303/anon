@@ -18,6 +18,8 @@
       -moz-osx-font-smoothing: grayscale;
       overflow: hidden;
       font-size: 14px;
+      position: fixed;
+      width: 100%;
     }
     body {
       display: flex;
@@ -109,6 +111,13 @@
       background: #121212;
       color: #ddd;
       user-select: text;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      max-width: 900px;
+      margin: 0 auto;
     }
     .room-info {
       display: flex;
@@ -378,7 +387,12 @@
         height: 100vh;
         height: 100dvh;
         min-height: 100vh;
-        position: relative;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
       }
       .room-code-input {
         max-width: 100%;
@@ -425,7 +439,7 @@
         z-index: 100;
       }
       .messages {
-        padding-bottom: 70px;
+        padding-bottom: 120px;
       }
       .chat-area {
         position: relative;
@@ -540,7 +554,7 @@
       
       messageInput.addEventListener('focus', function() {
         setTimeout(() => {
-          scrollToBottom();
+          messageInput.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }, 300);
       });
       
@@ -551,10 +565,13 @@
           const currentHeight = window.visualViewport.height;
           const heightDiff = initialViewportHeight - currentHeight;
           
+          // Don't adjust body height, let it flow naturally
           if (heightDiff > 150) {
-            document.body.style.height = currentHeight + 'px';
-          } else {
-            document.body.style.height = '100vh';
+            // Keyboard is open, just ensure input is visible
+            const messageForm = document.querySelector('.message-form');
+            if (messageForm) {
+              messageForm.style.position = 'fixed';
+            }
           }
         }
       }
