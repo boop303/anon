@@ -713,9 +713,20 @@
     }
 
     function linkifyText(text) {
-      const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+|[^\s]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?)/gi;
+      const urlRegex = /(https?:\/\/[^\s]+|www\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:[^\s]*)?|(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:\/[^\s]*)?)/gi;
       
       return text.replace(urlRegex, function(url) {
+        // Skip if it's just dots or has multiple consecutive dots
+        if (/\.{2,}/.test(url) || url === '.' || /^\.+$/.test(url)) {
+          return url;
+        }
+        
+        // Skip if it doesn't look like a valid domain
+        const domainPattern = /^(?:www\.)?[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}(?:\/.*)?$/;
+        if (!url.match(/^https?:\/\//i) && !domainPattern.test(url)) {
+          return url;
+        }
+        
         let href = url;
         let displayUrl = url;
         
@@ -736,7 +747,7 @@
         return `<a href="${href}" target="_blank" rel="noopener noreferrer" style="color: #6fa8dc; text-decoration: underline; word-break: break-all;">${displayUrl}</a>`;
       });
     }
-
+    
     function scrollToBottom() {
       const container = document.getElementById('messages');
       requestAnimationFrame(() => {
