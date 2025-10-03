@@ -88,7 +88,7 @@
     .chat-header {
       background: #222;
       border-bottom: 1px solid #333;
-      padding: 10px 15px;
+      padding: 6px 15px;
       flex-shrink: 0;
     }
     .room-badge {
@@ -173,7 +173,7 @@
     .message-footer {
       background: #222;
       border-top: 1px solid #333;
-      padding: 15px 15px 20px 15px;
+      padding: 10px 15px 12px 15px;
       flex-shrink: 0;
       position: relative;
       z-index: 100;
@@ -195,7 +195,7 @@
         height: -webkit-fill-available;
       }
       .message-footer {
-        padding-bottom: calc(10px + env(safe-area-inset-bottom));
+        padding-bottom: calc(12px + env(safe-area-inset-bottom));
       }
       .bottom-spacer {
         height: calc(10px + env(safe-area-inset-bottom));
@@ -204,10 +204,10 @@
     
     @media screen and (max-width: 768px) {
       .message-footer {
-        padding-bottom: 25px;
+        padding-bottom: 15px;
       }
       .bottom-spacer {
-        height: 30px;
+        height: 15px;
       }
     }
     .message-input {
@@ -565,11 +565,11 @@
       const container = document.getElementById('messagesContainer');
       
       if (msg.type === 'system') {
-        const div = document.createElement('div');
-        div.className = 'status-msg';
-        div.textContent = msg.text;
-        container.appendChild(div);
-        scrollToBottom();
+        // Don't display system messages in chat, show as toast instead
+        if (msg.text.includes('joined')) {
+          const username = msg.text.replace(' joined', '');
+          showNotification(`${username} joined the room`);
+        }
         return;
       }
       
